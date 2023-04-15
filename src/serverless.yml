@@ -1,0 +1,31 @@
+component: http
+name: http-koa-I7MaNgYYHx
+inputs:
+  src:
+    src: ./
+    exclude:
+      - .env
+  faas:
+    framework: koa
+    name: '${name}'
+    runtime: Nodejs12.16
+    eip: false
+    timeout: 3
+    memorySize: 512
+    tags: []
+    environments: []
+    layers:
+      - name: '${output:${stage}:${app}:test-layer.name}'
+        version: '${output:${stage}:${app}:test-layer.version}'
+  apigw:
+    protocols:
+      - http
+      - https
+    timeout: 60
+    environment: release
+    customDomains: []
+  region: ap-guangzhou
+  isAutoCiDeploy: false
+org: '1305580547'
+app: test
+stage: dev
