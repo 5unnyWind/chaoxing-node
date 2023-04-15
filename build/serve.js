@@ -4,9 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.main_handler = exports.handler = exports.main = void 0;
-const router_1 = __importDefault(require("@koa/router"));
 const child_process_1 = require("child_process");
-const koa_1 = __importDefault(require("koa"));
 const koa_bodyparser_1 = __importDefault(require("koa-bodyparser"));
 const multiparty_1 = __importDefault(require("multiparty"));
 const serverless_http_1 = __importDefault(require("serverless-http"));
@@ -18,9 +16,10 @@ const qrcode_1 = require("./functions/qrcode");
 const tencent_qrcode_1 = require("./functions/tencent.qrcode");
 const user_1 = require("./functions/user");
 const file_1 = require("./utils/file");
-// const ENVJSON = (0, file_1.getJsonObject)('env.json')||null;
-const app = new koa_1.default();
-const router = new router_1.default();
+const ENVJSON = (0, file_1.getJsonObject)('env.json');
+const mod_ts_1 = require("https://deno.land/x/oak/mod.ts");
+const app = new mod_ts_1.Application();
+const router = new mod_ts_1.Router();
 const processMap = new Map();
 router.get('/', async (ctx) => {
     ctx.body = '<h1 style="text-align: center">Welcome, chaoxing-sign-cli API service is running.</h1>';
@@ -290,12 +289,10 @@ process.on('exit', () => {
         pcs.kill('SIGKILL');
     });
 });
-// if (!ENVJSON.env.SERVERLESS)
-//     app.listen(5001, () => {
-//         console.log('API Server: http://localhost:5001');
-//     });
+if (!ENVJSON.env.SERVERLESS)
+    app.listen(5001, () => {
+        console.log('API Server: http://localhost:5001');
+    });
 exports.main = (0, serverless_http_1.default)(app);
 exports.handler = exports.main;
 exports.main_handler = exports.main;
-
-module.exports = app.callback();
