@@ -17,9 +17,9 @@ const tencent_qrcode_1 = require("./functions/tencent.qrcode");
 const user_1 = require("./functions/user");
 const file_1 = require("./utils/file");
 const ENVJSON = (0, file_1.getJsonObject)('env.json');
-const mod_ts_1 = require("https://deno.land/x/oak/mod.ts");
-const app = new mod_ts_1.Application();
-const router = new mod_ts_1.Router();
+import { Application, Router } from "https://deno.land/x/oak/mod.ts";
+const app = new Application();
+const router = new Router();
 const processMap = new Map();
 router.get('/', async (ctx) => {
     ctx.body = '<h1 style="text-align: center">Welcome, chaoxing-sign-cli API service is running.</h1>';
